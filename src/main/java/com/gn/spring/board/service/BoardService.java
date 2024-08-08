@@ -28,8 +28,27 @@ public class BoardService {
 	public Page<BoardDto> selectBoardList(BoardDto searchDto,Pageable pageable){
 		Page<Board> boardList = null;
 		
-		String boardTitle = searchDto.getBoard_title();
-		if(boardTitle != null && !"".equals(boardTitle)) {
+//		String boardTitle = searchDto.getBoard_title();
+//		if(boardTitle != null && !"".equals(boardTitle)) {
+//			boardList = boardRepository.findByboardTitleContaining(boardTitle, pageable);
+//		} else {
+//			boardList = boardRepository.findAll(pageable);
+//		}
+		// 제목으로 검색, 내용으로 검색, 제목+내용으로 검색
+		String searchText = searchDto.getSearch_text();
+		if(searchText != null && "".equals(searchText) == false) {
+			int searchType = searchDto.getSearch_type();
+			switch(searchType) {
+			case 1 :
+				boardList = boardRepository.findByboardTitleContaining(searchText, pageable);
+				break;
+			case 2 :
+				boardList = boardRepository.findByboardContentContaining(searchText, pageable);
+				break;
+			case 3 :
+	
+				break;
+			}
 			
 		} else {
 			boardList = boardRepository.findAll(pageable);

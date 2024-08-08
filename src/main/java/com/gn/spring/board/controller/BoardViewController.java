@@ -30,10 +30,11 @@ public class BoardViewController {
 	@GetMapping("/board")
 	public String selectBoardList(Model model,
 			@PageableDefault(page=0, size = 5, sort="regDate", direction=Sort.Direction.DESC)Pageable pageable,
-			@ModelAttribute("searchDto")BoardDto searchDto) {
+			BoardDto searchDto) {
 		Page<BoardDto> resultList = boardService.selectBoardList(searchDto, pageable);
 		LOGGER.debug(resultList.toString());
 		model.addAttribute("resultList",resultList);
+		model.addAttribute("searchDto",searchDto);
 		return "board/list";
 	}
 	
