@@ -12,11 +12,10 @@
 			<div class="board_detail">
 				<ul>
 					<li>
-						<figure>
-							<figcaption th:text="${dto.ori_thumbnail}">
-							</figcaption>
-							<img th:src="@{'/boardUploadImg/'+${dto.new_thumbnail}}"/>
-						</figure>
+						<img th:src="@{'/boardUploadImg/'+${dto.new_thumbnail}}"/>
+						<a th:text="${dto.ori_thumbnail}" 
+						th:href="@{/download/{no}(no=${dto.board_no})}"
+						style="text-decoration:underline;">이미지 다운로드</a>
 					</li>
 					<li>
 						<table>

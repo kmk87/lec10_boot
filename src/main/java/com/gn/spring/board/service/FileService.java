@@ -1,15 +1,66 @@
 package com.gn.spring.board.service;
 
 import java.io.File;
+import java.net.URLEncoder;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.gn.spring.board.domain.Board;
+import com.gn.spring.board.repository.BoardRepository;
 
 @Service
 public class FileService {
 	// 6. 파일 저장 경로 설정(전역변수로 설정-업로드,수정,삭제 다 사용하니까!)
 	private String fileDir = "C:\\board\\upload\\";
+	
+	private final BoardRepository boardRepository;
+	
+	@Autowired
+	public FileService(BoardRepository boardRepository) {
+		this.boardRepository = boardRepository;
+	}
+	
+	// 이미지 다운로드
+	public ResponseEntity<Object> download(Long board_no){
+		
+		try {
+			Board b = boardRepository.findByboardNo(board_no);
+			
+			String newFileName = b.getNewthumbnail();
+			String oriFileName = URLEncoder.encode(b.getOrithumbnail(),"UTF-8");
+			String downDir = fileDir+newFileName;
+			
+			
+			// 파일 경로 찾아주는 객체
+			Path filePath = Paths.get(downDir);
+			Resource resource = new InputStreamResource(Files.newInputStream(filePath));
+			
+			// 다운받은 파일 가져오기
+			File file = new File(downDir);
+			HttpHeaders headers = new HttpHeaders();
+			// 다운로드 할때 어떤식으로 될건지
+			headers.setContentDisposition(ContentDisposition.builder("attachment").filename(oriFileName).build());
+			
+			return new ResponseEntity<Object>(resource, headers, HttpStatus.OK);
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<Object>(null,HttpStatus.CONFLICT);
+		}
+		
+	}
 	
 	public String upload(MultipartFile file) {
 		
