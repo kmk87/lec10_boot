@@ -38,5 +38,11 @@ public class BoardViewController {
 		return "board/list";
 	}
 	
+	// 게시글 등록
+	@GetMapping("/board/create")
+	public String createBoardPage() {
+		return "board/create";
+	}
+	
 	
 }
