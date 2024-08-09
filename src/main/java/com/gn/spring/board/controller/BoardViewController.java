@@ -54,6 +54,21 @@ public class BoardViewController {
 	}
 	
 	
+	// 게시글 수정
+	@GetMapping("/board/update/{board_no}")
+	public String updateBoardPage(@PathVariable("board_no")Long board_no,
+			Model model) {
+		BoardDto dto = boardService.selectBoardOne(board_no);
+		model.addAttribute("dto",dto);
+		return "board/update";
+		
+		
+	}
+	
+	
+	
+	
+	
 	
 	
 	
