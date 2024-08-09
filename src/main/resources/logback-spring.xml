@@ -53,7 +53,7 @@
    </root> -->
    
    <logger name="org.springframework" level="INFO">
-   	<appender-ref ref="CONSOLE"/>
+   		<appender-ref ref="CONSOLE"/>
        <appender-ref ref="FILE"/>
    </logger>
 
@@ -62,4 +62,14 @@
        <appender-ref ref="CONSOLE"/>
        <appender-ref ref="FILE"/>
    </logger>
+   
+   <!-- JPA 쿼리 로그 설정 -->
+   <logger name="org.hibernate.SQL" level="DEBUG">
+   		<appender-ref ref="CONSOLE"/>
+       	<appender-ref ref="FILE"/>
+   </logger>
+   
+   
+   
+   
 </configuration>
