@@ -10,7 +10,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.gn.spring.board.domain.BoardDto;
 import com.gn.spring.board.service.BoardService;
@@ -43,6 +43,18 @@ public class BoardViewController {
 	public String createBoardPage() {
 		return "board/create";
 	}
+	
+	// 게시글 상세 화면
+	@GetMapping("/board/{board_no}")
+	public String selectBoardOne(Model model,
+			@PathVariable("board_no") Long board_no) {
+		BoardDto dto = boardService.selectBoardOne(board_no);
+		model.addAttribute("dto",dto);
+		return "board/detail";
+	}
+	
+	
+	
 	
 	
 }

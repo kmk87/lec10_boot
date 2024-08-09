@@ -25,12 +25,22 @@ public class BoardService {
 		this.boardRepository = boardRepository;
 	}
 	
+	// 게시글 상세
+	public BoardDto selectBoardOne(Long board_no) {
+		Board board =boardRepository.findByboardNo(board_no);
+		BoardDto dto = new BoardDto().toDto(board);
+		return dto;
+	}
+	
+	
 	// 게시글 등록
 	public Board createBoard(BoardDto dto) {
 		Board board = dto.toEntity();
 		return boardRepository.save(board);
 		
 	}
+	
+
 	
 	public Page<BoardDto> selectBoardList(BoardDto searchDto,Pageable pageable){
 		Page<Board> boardList = null;
