@@ -46,7 +46,7 @@ public class BoardService {
 				boardList = boardRepository.findByboardContentContaining(searchText, pageable);
 				break;
 			case 3 :
-	
+				boardList = boardRepository.findByboardTitleOrboardContentContaining(searchText,pageable);
 				break;
 			}
 			
